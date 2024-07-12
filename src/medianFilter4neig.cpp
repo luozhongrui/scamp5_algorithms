@@ -7,7 +7,7 @@ using namespace SCAMP5_PE;
 A, B, C
 */
 
-void getImage(AREG x){
+inline void getImage(AREG x){
     // capture a half-scale image in A
     scamp5_kernel_begin();
         get_image(x);
@@ -15,7 +15,7 @@ void getImage(AREG x){
 }
 
 
-void comp2A(AREG input, AREG flag){
+inline void comp2A(AREG input, AREG flag){
     scamp5_kernel_begin();
     sub(flag, input, A);
     where(flag); // input > A
@@ -31,7 +31,7 @@ void comp2A(AREG input, AREG flag){
     scamp5_kernel_end();
 }
 
-void comp2B(AREG input, AREG flag){
+inline  void comp2B(AREG input, AREG flag){
     scamp5_kernel_begin();
     sub(flag, input, B);
     where(flag); // input > B
@@ -46,7 +46,7 @@ void comp2B(AREG input, AREG flag){
 }
 
 
-void comp2C(AREG input, AREG flag){
+inline void comp2C(AREG input, AREG flag){
     scamp5_kernel_begin();
     sub(flag, C, input);
     where(flag);
@@ -57,23 +57,23 @@ void comp2C(AREG input, AREG flag){
 
 
 
-void move(AREG y, AREG x){
+inline void move(AREG y, AREG x){
     scamp5_kernel_begin();
     mov(y, x);
     scamp5_kernel_end();
 }
-void moveDir(AREG y, AREG x, const news_t dir){
+inline void moveDir(AREG y, AREG x, const news_t dir){
     scamp5_kernel_begin();
     movx(y, x, dir);
     scamp5_kernel_end();
 }
-void moveDir(AREG y, AREG x, const news_t dir0, const news_t dir1){
+inline  void moveDir(AREG y, AREG x, const news_t dir0, const news_t dir1){
     scamp5_kernel_begin();
     mov2x(y, x, dir0, dir1);
     scamp5_kernel_end();
 }
 
-void inital(int value){
+inline  void inital(int value){
     scamp5_in(A, value);
     scamp5_in(B, value);
     scamp5_in(C, value);
@@ -100,10 +100,13 @@ int main(){
 
         moveDir(F, F, north);
         comp2A(F, E);
+        comp2B(F, E);
+        comp2C(F, E);
 
         moveDir(F, F, south, west);
         comp2A(F, E);
         comp2B(F, E);
+        comp2C(F, E);
 
         moveDir(F, F, south, east);
         comp2A(F, E);
