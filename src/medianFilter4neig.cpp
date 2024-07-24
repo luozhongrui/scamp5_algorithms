@@ -82,6 +82,7 @@ inline  void inital(int value){
 
 int main(){
     vs_init();
+    vs_sim::reset_model(3);
 
     // Setup Host GUI
     auto display_1 = vs_gui_add_display("half-scale",0,0);

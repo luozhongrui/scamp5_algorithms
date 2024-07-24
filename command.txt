@@ -1,0 +1,1 @@
+cl /EHsc /Iinclude /Zi /Od /MDd /DDEBUG /LD /Fobuild/ /Fdbuild/vc140.pdb /Fescamp5lib.dll src/scamp5lib.cpp /link /LIBPATH:lib\Debug /NODEFAULTLIB:LIBCMT /NODEFAULTLIB:libcmt /DLL scamp5_sim_lib.lib Kernel32.lib Advapi32.lib User32.lib

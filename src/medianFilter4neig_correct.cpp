@@ -1,10 +1,16 @@
 #include <scamp5.hpp>
-#include <vs_random.hpp>
+
 using namespace SCAMP5_PE;
 
 inline void getImage(AREG x){
     scamp5_kernel_begin();
         get_image(x);
+    scamp5_kernel_end();
+}
+
+inline void add(AREG z, AREG x, AREG y){
+    scamp5_kernel_begin();
+        add(z, x, y);
     scamp5_kernel_end();
 }
 
@@ -56,8 +62,23 @@ inline void updateRegistersWithF(AREG F) {
     scamp5_kernel_end();
 }
 
+inline void medianFilter(AREG x){
+    initializeRegisters();
+    moveDir(x, x, north);
+    updateRegistersWithF(F);
+    moveDir(x, x, south, south);
+    updateRegistersWithF(F);
+    moveDir(x, x, north, west);
+    updateRegistersWithF(F);
+    moveDir(x, x, east, east);
+    updateRegistersWithF(F);
+    moveDir(x, x, west);
+    updateRegistersWithF(F);
+}
+
 int main(){
     vs_init();
+    vs_sim::reset_model(3);
 
     // Setup Host GUI
     auto display_1 = vs_gui_add_display("Input Image", 0, 0);
@@ -70,8 +91,6 @@ int main(){
         getImage(F);
 
         scamp5_output_image(F, display_1);
-
-        initializeRegisters();
 
         moveDir(F, F, north);
         updateRegistersWithF(F);
