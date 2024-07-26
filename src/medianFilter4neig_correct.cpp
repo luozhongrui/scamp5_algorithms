@@ -63,51 +63,45 @@ inline void updateRegistersWithF(AREG F) {
 }
 
 inline void medianFilter(AREG x){
-    initializeRegisters();
-    moveDir(x, x, north);
-    updateRegistersWithF(F);
-    moveDir(x, x, south, south);
-    updateRegistersWithF(F);
-    moveDir(x, x, north, west);
-    updateRegistersWithF(F);
-    moveDir(x, x, east, east);
-    updateRegistersWithF(F);
-    moveDir(x, x, west);
-    updateRegistersWithF(F);
+        initializeRegisters();
+        moveDir(x, x, north);
+        updateRegistersWithF(x);
+        moveDir(x, x, south, south);
+        updateRegistersWithF(x);
+        moveDir(x, x, north, west);
+        updateRegistersWithF(x);
+        moveDir(x, x, east, east);
+        updateRegistersWithF(x);
+        moveDir(x, x, west);
+        updateRegistersWithF(x);
 }
 
 int main(){
     vs_init();
-    vs_sim::reset_model(3);
+    vs_sim::reset_model(0);
 
     // Setup Host GUI
     auto display_1 = vs_gui_add_display("Input Image", 0, 0);
     auto display_2 = vs_gui_add_display("Median Value", 0, 1);
 
     vs_gui_set_info(VS_M0_PROJECT_INFO_STRING);
-
+    
     while(1){
         vs_frame_loop_control();
         getImage(F);
-
-        scamp5_output_image(F, display_1);
-
+        initializeRegisters();
         moveDir(F, F, north);
         updateRegistersWithF(F);
-
         moveDir(F, F, south, south);
         updateRegistersWithF(F);
-
         moveDir(F, F, north, west);
         updateRegistersWithF(F);
-
         moveDir(F, F, east, east);
         updateRegistersWithF(F);
-
         moveDir(F, F, west);
         updateRegistersWithF(F);
-
         // Output the median value
+        scamp5_output_image(F, display_1);
         scamp5_output_image(C, display_2);
     }
     return 0;
